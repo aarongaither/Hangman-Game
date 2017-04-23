@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="UTF-8">
+    <title>Hangman!</title>
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Nova+Mono" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <header>
+                <h1>Hangman.</h1>
+                <p>Select your letter from below</p>
+            </header> 
+            <section>
+                <p> Remaining: <span id="chances">10</span></p>
+            </section> 
+        </div>
+        <section class="row">
+            <ul id="alphabet" class="row"></ul>
+        </section>
+        <section class="row">
+            <ul id="guesses" class="row"></ul>
+        </section>
+    </div>
+    <script src="assets/javascript/game.js"></script>
+</body>
+</html>

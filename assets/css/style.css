@@ -1,0 +1,71 @@
+* {
+	box-sizing: border-box;
+	font-family: 'Nova Mono', monospace;
+	text-transform: uppercase;	
+}
+
+html {
+	height: 100%;
+}
+
+body {
+	margin: 0;
+	background: darkslategrey;
+	text-align: center;
+}
+
+section {
+	overflow: hidden;
+}
+
+.container {
+	max-width: 980px;
+	margin: 0 auto;
+}
+
+.row {
+	margin: 30px auto 0 auto;
+	width: 100%;
+	clear: both;
+}
+
+#alphabet {
+	width: 65%;
+}
+
+#alphabet>li {
+	float: left;
+	list-style: none;
+	cursor: pointer;
+	height: 35px;
+	width: 35px;
+	margin: 0 10px 10px 0px;
+	padding-top: 5px;
+	font-size: 18px;
+	color: darkslategrey;
+	background-color: salmon;
+	border-radius: 50%;
+}
+
+#guesses>li {
+	list-style: none;
+	display: inline;
+	width: 35px;
+	margin: 0 10px 10px 0px;
+	padding-top: 5px;
+	font-size: 18px;
+	color: white;
+}
+
+.used {
+	opacity: .4;
+}
+
+/*
+Theme ideas:
+Coding
+Everything looks coded
+use a code style font
+angle brackets, etc...
+
+*/
