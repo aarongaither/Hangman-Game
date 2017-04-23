@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Hangman!</title>
+    <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
     <link rel="stylesheet" type="text/css" href="assets/css/style.css">
     <link href="https://fonts.googleapis.com/css?family=Nova+Mono" rel="stylesheet">
 </head>
@@ -11,10 +12,10 @@
         <div class="row">
             <header>
                 <h1>Hangman.</h1>
-                <p>Select your letter from below</p>
+                <p id="info">Select your letter from below</p>
             </header> 
             <section>
-                <p> Remaining: <span id="chances">10</span></p>
+                <p> Remaining: <span id="chances"></span></p>
             </section> 
         </div>
         <section class="row">

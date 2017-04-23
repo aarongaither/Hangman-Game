@@ -1,6 +1,6 @@
 * {
 	box-sizing: border-box;
-	font-family: 'Nova Mono', monospace;
+
 	text-transform: uppercase;	
 }
 
@@ -14,8 +14,21 @@ body {
 	text-align: center;
 }
 
+h1 {
+	font-size: 24px;
+}
+
+header {
+	box-sizing: border-box;
+	text-transform: uppercase;
+	font-family: 'Nova Mono', monospace;
+}
+
 section {
+	box-sizing: border-box;
 	overflow: hidden;
+	font-family: 'Nova Mono', monospace;
+	text-transform: uppercase;
 }
 
 .container {
@@ -24,6 +37,7 @@ section {
 }
 
 .row {
+	box-sizing: border-box;
 	margin: 30px auto 0 auto;
 	width: 100%;
 	clear: both;
@@ -34,13 +48,14 @@ section {
 }
 
 #alphabet>li {
+	box-sizing: border-box;
 	float: left;
 	list-style: none;
 	cursor: pointer;
 	height: 35px;
 	width: 35px;
 	margin: 0 10px 10px 0px;
-	padding-top: 5px;
+	padding-top: 8px;
 	font-size: 18px;
 	color: darkslategrey;
 	background-color: salmon;
@@ -51,8 +66,7 @@ section {
 	list-style: none;
 	display: inline;
 	width: 35px;
-	margin: 0 10px 10px 0px;
-	padding-top: 5px;
+	margin: 0 10px 5px 0px;
 	font-size: 18px;
 	color: white;
 }
