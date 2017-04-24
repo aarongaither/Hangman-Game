@@ -75,6 +75,17 @@ section {
 	opacity: .4;
 }
 
+button {
+	font-family: 'Nova Mono', monospace;
+	box-sizing: border-box;
+	padding: 5px;
+	margin: 10px;
+}
+
+.hidden {
+	visibility: hidden;
+}
+
 /*
 Theme ideas:
 Coding

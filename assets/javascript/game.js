@@ -1,21 +1,29 @@
 //create buttons
 function makeButtons () {
-	btnList = document.getElementById("alphabet");
+	//make button for starting a new game, hidden by default
+	rpl = document.createElement("button");
+	rpl.className = "hidden";
+	rpl.id = "replay";
+	rpl.innerHTML = "Play Again.";
+	rpl. addEventListener("click", function () {gameObj.init()});
+	document.getElementById("main").appendChild(rpl);
 
+	//make all our li items that will serve as letter buttons
 	for (let i of gameObj.alphabet) {
-	    item = document.createElement('li');
-	    item.className = 'letter';
+	    item = document.createElement("li");
+	    item.classList.add("letter");
 	    item.id = i;
 	    item.innerHTML = i;
 	    item.addEventListener("click", function () {gameObj.makeGuess(this.innerHTML);});
-	    btnList.appendChild(item);
+	    document.getElementById("alphabet").appendChild(item);
 	}
 }
 
+//game object of many things!
 let gameObj = {
-	alphabet : ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
-    'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
-    't', 'u', 'v', 'w', 'x', 'y', 'z'],
+	alphabet : ["a", "b", "c", "d", "e", "f", "g", "h",
+    "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s",
+    "t", "u", "v", "w", "x", "y", "z"],
 	words : ["bootstrap", "jquery", "react", "angular", "node", "ajax",
 	"javascript", "firebase", "heroku", "github", "gitlab", "mysql", "mongodb",
 	"express", "mongoose"],
@@ -27,60 +35,95 @@ let gameObj = {
 	wins: 0,
 	losses: 0,
 	gameState: 1,
-	setGuessWord : function () {
-		this.curWord = this.words[Math.floor(Math.random() * this.words.length)];	//set curWord with random index from words list
+	init : function () {
+	// reset entire game, minus wins/losses (which only happens on refresh)
+		//set page elements, info line, make sure replay button is hidden.
+		document.getElementById("info").innerHTML = "Select your letter from below.";
+		document.getElementById("replay").classList.add("hidden"); 	
+		this.curChances = this.startChances;		
+		document.getElementById("chances").innerHTML = this.curChances;
+		//set vars
+		this.gameState = 1;
+		this.reqLet = "";
+		this.guessLet = "";
+		///splice curWord with random index from words list (splice so as to remove item from list so no repeats)
+		let rand = Math.floor(Math.random() * this.words.length);
+		this.curWord = this.words.splice(rand, 1)[0];
+		//push unique letters to var for checking against
 		for (let i of this.curWord) {
 			if (this.reqLet.indexOf(i) === -1){
 				this.reqLet += i;
 			}
 		}
-		for (let i = 0; i < this.curWord.length; i++) {								//create unserscores on page for replacment
-			item = document.createElement('li');
+		//remove any children of the guesses list
+		let guessUL = document.getElementById("guesses");
+		while (guessUL.hasChildNodes()) {   
+		    guessUL.removeChild(guessUL.firstChild);
+		}
+		//create underscores on page for replacment
+		for (let i = 0; i < this.curWord.length; i++) {								
+			item = document.createElement("li");
 			item.className = "guessLetter";
 			item.innerHTML = "_";
-			document.getElementById("guesses").appendChild(item);
+			guessUL.appendChild(item);
+		}
+		//make sure all li buttons are no longer used
+		let btns = document.getElementsByClassName("letter");
+		for (let i of btns) {
+			i.classList.remove("used");
 		}
 	},
-	setChances : function () {														//decrement chances, push to page
+	setChances : function () {
+	//decrement chances, then check for game loss
+		//decrement chances, push to page												
 		this.curChances -= 1; 
 		document.getElementById("chances").innerHTML = this.curChances;
+		//check for game loss
 		if (this.curChances < 1) {
 			this.gameState = 0;
 			this.losses += 1;
 			document.getElementById("losses").innerHTML = this.losses;
-			document.getElementById("info").innerHTML = "You Lost."
+			document.getElementById("info").innerHTML = "You Lost.";
+			document.getElementById("replay").classList.remove("hidden");
 		}
 	},
-	resetChances : function () {													//reset curChances to starting value
-		this.curChances = this.startChances;		
-		document.getElementById("chances").innerHTML = this.curChances;
-	},
-	checkWin : function () {														//iter through guessobj and check	
-		if (this.reqLet === this.guessLet){
-			this.gameState = 0;
-			this.wins += 1;
-			document.getElementById("wins").innerHTML = this.wins;
-			document.getElementById("info").innerHTML = "You win!";
+	checkWin : function () {
+	//check for win
+		//loop through reqlet and check if their members of guesslet
+		for (let i of this.reqLet){
+			if (this.guessLet.indexOf(i) === -1){
+				return false;
+			}
 		}
+		//made it through the loop, game is won!
+		this.gameState = 0;
+		this.wins += 1;
+		document.getElementById("wins").innerHTML = this.wins;
+		document.getElementById("info").innerHTML = "You win!";
+		document.getElementById("replay").classList.remove("hidden");
 	},
 	makeGuess : function (letter) {
+	//on btn click check if btn is usable, then if letter is correct
 		if (this.gameState === 1){
 			let word = gameObj.curWord;
 			curLetter = document.getElementById(letter);
-			if (curLetter.className === "letter used"){
-				console.log("Button already used.");
-			} else {
-				curLetter.className += " used";									// add used css class
-				if (word.indexOf(letter) != -1) {								// membership check for guessed letter vs curWord
+			//if btn does not have used class
+			if (!curLetter.classList.contains("used")){
+				curLetter.classList.add("used");
+				//if letter is in our guess word								
+				if (word.indexOf(letter) != -1) {
 					this.guessLet += letter;
-					let gsEl = document.getElementsByClassName("guessLetter"); 	//grab all guessLetter class DOM elem
-					for (let i = 0; i < word.length; i++) {						//iter through curWord
-						if (word.charAt(i) === letter)  {						//use curWord position to change underscore
+					//grab all guessLetter class DOM elem, iter through curWord, use curWord position to update html
+					let gsEl = document.getElementsByClassName("guessLetter");
+					for (let i = 0; i < word.length; i++) {
+						if (word.charAt(i) === letter)  {
 							gsEl[i].innerHTML = letter;
 						}
 					}
+					//letter was in word, now lets check for win
 					this.checkWin();
 				} else {
+					//letter wasnt in word, decrement chances and check for lose
 					gameObj.setChances();
 				}
 			}
@@ -89,22 +132,13 @@ let gameObj = {
 }
 
 
-function newGame () {
-	document.getElementById("info").innerHTML = "Select your letter from below."
-	gameObj.resetChances();
-	gameObj.setGuessWord();
-}
-
 //init
 makeButtons();
-gameObj.resetChances();
-gameObj.setGuessWord();
+gameObj.init();
 
 
 
 // to-do
-// add limited guesses
 // figure out overall layout
 // add hangman SVG
 // add reset button
-// add solve button
