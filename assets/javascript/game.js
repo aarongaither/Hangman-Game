@@ -1,95 +1,105 @@
-var alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
-    'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
-    't', 'u', 'v', 'w', 'x', 'y', 'z'];
-
-var words = ["bootstrap", "jquery", "react", "angular", "node", "ajax",
-	"javascript", "firebase", "heroku", "github", "gitlab", "mysql", "mongodb",
-	"express", "mongoose"]
-
-var chances = 10;
-var curWord = setGuessWord();
-var letterObj = setGuessObj(curWord);
-
 //create buttons
 function makeButtons () {
 	btnList = document.getElementById("alphabet");
 
-	for (var i of alphabet) {
+	for (let i of gameObj.alphabet) {
 	    item = document.createElement('li');
 	    item.className = 'letter';
 	    item.id = i;
 	    item.innerHTML = i;
-	    item.addEventListener("click", function () {makeGuess(this.innerHTML);});
+	    item.addEventListener("click", function () {gameObj.makeGuess(this.innerHTML);});
 	    btnList.appendChild(item);
 	}
 }
 
-//set guess word and create blank li items
-function setGuessWord () {
-	guessWord = words[Math.floor(Math.random() * words.length)];
-	guessObj = {};
-	//create replacement underscores
-	guessList = document.getElementById("guesses");
-	for (var i = 0; i < guessWord.length; i++) {
-		item = document.createElement('li');
-		item.className = "guessLetter";
-		item.innerHTML = "_";
-		guessList.appendChild(item);
-	}
-	return guessWord;
-}
-
-//make a guess obj to match letters and guesses (only has letters from curWord)
-function setGuessObj (wrd) {
-	tempObj = {};
-	for (var i of wrd) {
-		tempObj[i] = "unguessed";
-	}
-	return tempObj;
-}
-
-function setChances (num) {
-	elem = document.getElementById("chances");
-	elem.innerHTML = num;
-}
-
-//tun through guess obj and see if they've guessed them all
-function checkWin () {
-	for (var i of Object.keys(letterObj)) {
-		console.log(i, letterObj[i]);
-	}
-}
-
-//happens on click, check if button
-function makeGuess (letter) {
-	curLetter = document.getElementById(letter);
-	if (curLetter.className === "letter used"){
-		console.log("Button already used.");
-	} else {
-		curLetter.className += " used";									// add used css class
-		if (curWord.indexOf(letter) != -1) {							// membership check for guessed letter vs curWord
-			letterObj[letter] = "guessed";								//set guess object
-			var gsEl = document.getElementsByClassName("guessLetter"); 	//grab all guessLetter class DOM elem
-			for (var i = 0; i < curWord.length; i++) {					//iter through curWord
-				if (curWord.charAt(i) === letter)  {					//use curWord position to change underscore
-					gsEl[i].innerHTML = letter;
+let gameObj = {
+	alphabet : ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
+    'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's',
+    't', 'u', 'v', 'w', 'x', 'y', 'z'],
+	words : ["bootstrap", "jquery", "react", "angular", "node", "ajax",
+	"javascript", "firebase", "heroku", "github", "gitlab", "mysql", "mongodb",
+	"express", "mongoose"],
+	startChances : 8,
+	curChances: 8,
+	curWord : "",
+	reqLet : "",
+	guessLet: "",
+	wins: 0,
+	losses: 0,
+	gameState: 1,
+	setGuessWord : function () {
+		this.curWord = this.words[Math.floor(Math.random() * this.words.length)];	//set curWord with random index from words list
+		for (let i of this.curWord) {
+			if (this.reqLet.indexOf(i) === -1){
+				this.reqLet += i;
+			}
+		}
+		for (let i = 0; i < this.curWord.length; i++) {								//create unserscores on page for replacment
+			item = document.createElement('li');
+			item.className = "guessLetter";
+			item.innerHTML = "_";
+			document.getElementById("guesses").appendChild(item);
+		}
+	},
+	setChances : function () {														//decrement chances, push to page
+		this.curChances -= 1; 
+		document.getElementById("chances").innerHTML = this.curChances;
+		if (this.curChances < 1) {
+			this.gameState = 0;
+			this.losses += 1;
+			document.getElementById("losses").innerHTML = this.losses;
+			document.getElementById("info").innerHTML = "You Lost."
+		}
+	},
+	resetChances : function () {													//reset curChances to starting value
+		this.curChances = this.startChances;		
+		document.getElementById("chances").innerHTML = this.curChances;
+	},
+	checkWin : function () {														//iter through guessobj and check	
+		if (this.reqLet === this.guessLet){
+			this.gameState = 0;
+			this.wins += 1;
+			document.getElementById("wins").innerHTML = this.wins;
+			document.getElementById("info").innerHTML = "You win!";
+		}
+	},
+	makeGuess : function (letter) {
+		if (this.gameState === 1){
+			let word = gameObj.curWord;
+			curLetter = document.getElementById(letter);
+			if (curLetter.className === "letter used"){
+				console.log("Button already used.");
+			} else {
+				curLetter.className += " used";									// add used css class
+				if (word.indexOf(letter) != -1) {								// membership check for guessed letter vs curWord
+					this.guessLet += letter;
+					let gsEl = document.getElementsByClassName("guessLetter"); 	//grab all guessLetter class DOM elem
+					for (let i = 0; i < word.length; i++) {						//iter through curWord
+						if (word.charAt(i) === letter)  {						//use curWord position to change underscore
+							gsEl[i].innerHTML = letter;
+						}
+					}
+					this.checkWin();
+				} else {
+					gameObj.setChances();
 				}
 			}
-		} else {
-			//add lose logic here
-			chances -= 1;
-			setChances(chances);
-			if (chances < 1) {
-				document.getElementById("info").innerHTML = "You Lost."
-			}
-			console.log(letter, " not present");
 		}
 	}
 }
 
-var logGuess = (letter) => console.log(letter);
+
+function newGame () {
+	document.getElementById("info").innerHTML = "Select your letter from below."
+	gameObj.resetChances();
+	gameObj.setGuessWord();
+}
+
+//init
 makeButtons();
-setChances(chances);
+gameObj.resetChances();
+gameObj.setGuessWord();
+
 
 
 // to-do
