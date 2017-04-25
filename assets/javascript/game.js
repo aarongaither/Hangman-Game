@@ -1,29 +1,21 @@
 //create buttons
-function makeButtons () {
-	//make button for starting a new game, hidden by default
-	rpl = document.createElement("button");
-	rpl.className = "hidden";
-	rpl.id = "replay";
-	rpl.innerHTML = "Play Again.";
-	rpl. addEventListener("click", function () {gameObj.init()});
-	document.getElementById("main").appendChild(rpl);
-
+function makeButtons (alpha) {
 	//make all our li items that will serve as letter buttons
-	for (let i of gameObj.alphabet) {
+	for (let i of gameObj[alpha]) {
 	    item = document.createElement("li");
-	    item.classList.add("letter");
+	    item.classList.add("letter", "shadow");
 	    item.id = i;
 	    item.innerHTML = i;
 	    item.addEventListener("click", function () {gameObj.makeGuess(this.innerHTML);});
-	    document.getElementById("alphabet").appendChild(item);
+	    document.getElementById(alpha).appendChild(item);
 	}
 }
 
 //game object of many things!
 let gameObj = {
-	alphabet : ["a", "b", "c", "d", "e", "f", "g", "h",
-    "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s",
-    "t", "u", "v", "w", "x", "y", "z"],
+	alphabet1 : ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
+	alphabet2 : ["a", "s", "d", "f", "g", "h", "j", "k", "l"],
+	alphabet3 : ["z", "x", "c", "v", "b", "n", "m"],
 	words : ["bootstrap", "jquery", "react", "angular", "node", "ajax",
 	"javascript", "firebase", "heroku", "github", "gitlab", "mysql", "mongodb",
 	"express", "mongoose"],
@@ -38,8 +30,11 @@ let gameObj = {
 	init : function () {
 	// reset entire game, minus wins/losses (which only happens on refresh)
 		//set page elements, info line, make sure replay button is hidden.
-		document.getElementById("info").innerHTML = "Select your letter from below.";
-		document.getElementById("replay").classList.add("hidden"); 	
+
+		document.getElementById("replay").classList.add("hide");
+		document.getElementById("undef").classList.remove("hide");
+		//set chances and status
+		document.getElementById("info").innerHTML = "playing";
 		this.curChances = this.startChances;		
 		document.getElementById("chances").innerHTML = this.curChances;
 		//set vars
@@ -83,8 +78,9 @@ let gameObj = {
 			this.gameState = 0;
 			this.losses += 1;
 			document.getElementById("losses").innerHTML = this.losses;
-			document.getElementById("info").innerHTML = "You Lost.";
-			document.getElementById("replay").classList.remove("hidden");
+			document.getElementById("info").innerHTML = "loser";
+			document.getElementById("undef").classList.add("hide");
+			document.getElementById("replay").classList.remove("hide");
 		}
 	},
 	checkWin : function () {
@@ -99,8 +95,9 @@ let gameObj = {
 		this.gameState = 0;
 		this.wins += 1;
 		document.getElementById("wins").innerHTML = this.wins;
-		document.getElementById("info").innerHTML = "You win!";
-		document.getElementById("replay").classList.remove("hidden");
+		document.getElementById("info").innerHTML = "winner";
+		document.getElementById("undef").classList.add("hide");
+		document.getElementById("replay").classList.remove("hide");
 	},
 	makeGuess : function (letter) {
 	//on btn click check if btn is usable, then if letter is correct
@@ -133,7 +130,10 @@ let gameObj = {
 
 
 //init
-makeButtons();
+document.getElementById("replay").addEventListener("click", function () {gameObj.init()});
+makeButtons("alphabet1");
+makeButtons("alphabet2");
+makeButtons("alphabet3");
 gameObj.init();
 
 
@@ -141,4 +141,4 @@ gameObj.init();
 // to-do
 // figure out overall layout
 // add hangman SVG
-// add reset button
+// if word is lost, add back to words for re-use
