@@ -181,7 +181,7 @@ ul>.used:hover {
 }
 
 span#replay:hover {
-	font-size: 35px;
+    text-shadow: 0 0 10px white;
 	cursor: default;
 }
 

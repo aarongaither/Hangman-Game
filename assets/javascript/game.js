@@ -16,8 +16,8 @@ let gameObj = {
 	words : ["bootstrap", "jquery", "react", "angular", "node", "ajax",
 	"javascript", "firebase", "heroku", "github", "gitlab", "mysql", "mongodb",
 	"express", "mongoose"],
-	startChances : 6,
-	curChances: 6,
+	startChances : 7,
+	curChances: 7,
 	curWord : "",
 	reqLet : "",
 	guessLet: "",
@@ -68,8 +68,10 @@ let gameObj = {
 	},
 	checkLose : function () {
 	//decrement chances, reveal limb, then check for game loss
-		let bp = bodyParts[this.curChances - 1];
-		$("#"+ bp).removeClass("hide");
+		if (this.curChances > 1) {
+			let bp = bodyParts[this.curChances - 2];
+			$("#"+ bp).removeClass("hide");
+		}
 		//decrement chances, push to page												
 		this.curChances -= 1; 
 		$("#chances").html(this.curChances);
@@ -178,5 +180,4 @@ gameObj.init();
 // if word is lost, add back to words for re-use
 // add more words
 // add hints or categories
-// reveal hangman parts on miss
-// rename miss func
+// make responsive
