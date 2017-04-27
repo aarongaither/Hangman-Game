@@ -16,8 +16,8 @@ let gameObj = {
 	words : ["bootstrap", "jquery", "react", "angular", "node", "ajax",
 	"javascript", "firebase", "heroku", "github", "gitlab", "mysql", "mongodb",
 	"express", "mongoose"],
-	startChances : 8,
-	curChances: 8,
+	startChances : 6,
+	curChances: 6,
 	curWord : "",
 	reqLet : "",
 	guessLet: "",
@@ -34,7 +34,10 @@ let gameObj = {
 		this.curChances = this.startChances;		
 		$("#chances").html(this.curChances);
 		//hangman init
-		if (this.gameState != 1){
+		for (var i of bodyParts) {
+			$("#"+i).addClass("hide");
+		}
+		if (this.gameState === 0){
 			resetSVG();
 		}
 		//set vars
@@ -63,8 +66,10 @@ let gameObj = {
 			$(this).removeClass("used");
 		});
 	},
-	setChances : function () {
-	//decrement chances, then check for game loss
+	checkLose : function () {
+	//decrement chances, reveal limb, then check for game loss
+		let bp = bodyParts[this.curChances - 1];
+		$("#"+ bp).removeClass("hide");
 		//decrement chances, push to page												
 		this.curChances -= 1; 
 		$("#chances").html(this.curChances);
@@ -88,7 +93,7 @@ let gameObj = {
 			}
 		}
 		//made it through the loop, game is won!
-		this.gameState = 0;
+		this.gameState = 2;
 		this.wins += 1;
 		$("#wins").html(this.wins);
 		$("#info").html("winner");
@@ -117,7 +122,7 @@ let gameObj = {
 					this.checkWin();
 				} else {
 					//letter wasnt in word, decrement chances and check for lose
-					gameObj.setChances();
+					this.checkLose();
 				}
 			}
 		}
@@ -125,12 +130,6 @@ let gameObj = {
 }
 
 // hangman anim
-// $("#animate").click(function(){
-//     dropBody();
-//     $("#rEyes").addClass("hide");
-//     $("#xEyes").removeClass("hide");
-// });
-
 function dropBody () {
 	$("#rEyes").addClass("hide");
 	$("#xEyes").removeClass("hide");
@@ -166,6 +165,8 @@ function resetSVG () {
 	$("#door2").velocity({rotateZ: 0}, {duration: dur, delay: dur});
 }
 
+var bodyParts = ["legR", "legL", "armL", "armR", "torso", "head"];
+
 //init
 $("#replay").click(function () {gameObj.init();});
 makeButtons("alphabet1");
@@ -174,7 +175,8 @@ makeButtons("alphabet3");
 gameObj.init();
 
 // to-do
-// add hangman SVG
 // if word is lost, add back to words for re-use
 // add more words
 // add hints or categories
+// reveal hangman parts on miss
+// rename miss func
