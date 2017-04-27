@@ -180,4 +180,4 @@ gameObj.init();
 // if word is lost, add back to words for re-use
 // add more words
 // add hints or categories
-// make responsive
+// add more query breaks
