@@ -32,29 +32,61 @@ section {
 
 .main {
 	width: 65%;
-	margin: 0 auto;
+	margin: 30px auto;
+	overflow: hidden;
 }
 
+
+/*head content*/
 #text {
 	float: left;
-	width: 50%;
+	width: 60%;
+}
+
+p {
+	box-sizing: border-box;
+	margin: 0 auto;
+	font-size: 30px;
+	color: white;
+}
+
+.num {
+	color: #AE81FF;
+}
+
+.string {
+	color: Gold;
+}
+
+.func {
+	color: SkyBlue;
+}
+
+.exprs {
+	color: #F92672;
+}
+
+.indent {
+	padding-left: 20px;
 }
 
 #hang {
-	float: left;
+	float: right;
 }
 
-svg {
-	border: 1px black solid;
-}
 
+/*svg*/
 line {
-  stroke: black;
+  stroke: white;
   stroke-width: 4;
 }
 
 #body>line {
 	stroke-width: 2;
+}
+
+#xEyes>line {
+	stroke-width: 1;
 }
 
 #door1 {
@@ -65,16 +97,7 @@ line {
   transform-origin: 100% 100%;
 }
 
-p {
-	box-sizing: border-box;
-	margin: 0 auto;
-	font-size: 30px;
-}
-
-.indent {
-	padding-left: 15px;
-}
-
+/*button list*/
 .alphabet {
 	width: 50%;
 	text-align: center;
@@ -117,20 +140,6 @@ p {
 	    0 10px 10px rgba(0,0,0,.2);
 }
 
-#guesses {
-	text-align: center;
-}
-
-
-#guesses>li {
-	list-style: none;
-	display: inline;
-	width: 35px;
-	margin: 0 10px 5px 0px;
-	font-size: 30px;
-	color: white;
-}
-
 .used {
 	opacity: .4;
 	transform: translateY(4px);
@@ -150,12 +159,29 @@ ul>.used:hover {
 	cursor: default;
 }
 
+/*guess list*/
+#guesses {
+	text-align: center;
+}
+
+
+#guesses>li {
+	list-style: none;
+	display: inline;
+	width: 35px;
+	margin: 0 10px 5px 0px;
+	font-size: 30px;
+	color: white;
+}
+
+/*misc*/
 #replay {
 	cursor: default;
+	transition: 1s ease;
 }
 
 span#replay:hover {
-	color: white;
+	font-size: 35px;
 	cursor: default;
 }
 

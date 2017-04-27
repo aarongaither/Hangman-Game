@@ -14,28 +14,28 @@
 </head>
 <body>
     <div class="container">
-        <div class="row">
+        <div class="row main">
             <section id="text">
-                <p>var hangman = {</p>
-                <p class="indent">wins: <span id="wins">0</span>,</p>
-                <p class="indent">losses: <span id="losses">0</span>,</p>
-                <p class="indent">remaining: <span id="chances"></span>,</p>
-                <p class="indent">status: <span id="info"><span>,</p>
-                <p class="indent">play again: <span id="undef">undefined</span><span id="replay">() => {clickMeToPlayAgain();}</span></p>
+                <p><span class="func">var</span> hangman <span class="exprs">=</span> {</p>
+                <p class="indent">wins: <span id="wins" class="num">0</span>,</p>
+                <p class="indent">losses: <span id="losses" class="num">0</span>,</p>
+                <p class="indent">remaining: <span id="chances" class="num"></span>,</p>
+                <p class="indent">status: <span id="info" class="string"><span>,</p>
+                <p class="indent">play again: <span id="undef" class="num">undefined</span><span id="replay">() <span class="func">=></span> {<span class="func">clickMeToPlayAgain</span>();}</span></p>
                 <P>};</P>
             </section>
             <svg id="hang" height="200" width="200">
                 <g id="body">
-                    <circle cx="100" cy="40" r="10" stroke="black" stroke-width="2" fill="darkslategrey"/>
+                    <circle cx="100" cy="40" r="10" stroke="white" stroke-width="2" fill="darkslategrey"/>
                     <g id="rEyes">
-                        <circle cx="96" cy="40" r="3"/>
-                        <circle cx="104" cy="40" r="3"/>
+                        <circle cx="96" cy="40" r="2" fill="white"/>
+                        <circle cx="104" cy="40" r="2" fill="white"/>
                     </g>
                       <g id="xEyes" class="hide">
-                        <line x1="96" y1="39" x2="99" y2="42"/>
-                        <line x1="101" y1="39" x2="104" y2="42"/>
-                        <line x1="96" y1="42" x2="99" y2="39"/>
-                        <line x1="101" y1="42" x2="104" y2="39"/>
+                        <line x1="95" y1="39" x2="98" y2="42"/>
+                        <line x1="102" y1="39" x2="105" y2="42"/>
+                        <line x1="95" y1="42" x2="98" y2="39"/>
+                        <line x1="102" y1="42" x2="105" y2="39"/>
                       </g>
                     <line x1="100" y1="50" x2="100" y2="75" />
                     <line id="armL" x1="100" y1="60" x2="85" y2="70" />

@@ -33,6 +33,10 @@ let gameObj = {
 		$("#info").html("playing");
 		this.curChances = this.startChances;		
 		$("#chances").html(this.curChances);
+		//hangman init
+		if (this.gameState != 1){
+			resetSVG();
+		}
 		//set vars
 		this.gameState = 1;
 		this.reqLet = "";
@@ -72,6 +76,7 @@ let gameObj = {
 			$("#info").html("loser");
 			$("#undef").addClass("hide");
 			$("#replay").removeClass("hide");
+			dropBody();
 		}
 	},
 	checkWin : function () {
@@ -119,7 +124,47 @@ let gameObj = {
 	}
 }
 
+// hangman anim
+// $("#animate").click(function(){
+//     dropBody();
+//     $("#rEyes").addClass("hide");
+//     $("#xEyes").removeClass("hide");
+// });
 
+function dropBody () {
+	$("#rEyes").addClass("hide");
+	$("#xEyes").removeClass("hide");
+    $("#door1").velocity({rotateZ: 90}, 1000);
+    $("#door2").velocity({rotateZ: -90}, 1000);
+    fall();  
+}
+
+function fall() {
+	let dur = 500;
+	let del = 1000;
+	$("#body").velocity({translateY: "100px"}, {duration: dur, delay: del});
+	$("#rope").velocity({y2: "+=100px"}, {duration: dur, delay: del});
+	$("#armL").velocity({y2: "-=30px"}, {duration: dur, delay: del});
+	$("#armR").velocity({y2: "-=30px"}, {duration: dur, delay: del});
+	finish();
+}
+
+function finish () {
+  	$("#armL").velocity({y2: "+=35px", x2: "+=5px"}, 500);
+  	$("#armR").velocity({y2: "+=35px", x2: "-=5px"}, 500);
+}
+
+function resetSVG () {
+	let dur = 100;
+	$("#xEyes").addClass("hide");
+	$("#rEyes").removeClass("hide");
+	$("#armL").velocity({y2: "-=5px", x2: "-=5px"}, dur);
+	$("#armR").velocity({y2: "-=5px", x2: "+=5px"}, dur);
+	$("#body").velocity({translateY: "0px"}, dur);
+	$("#rope").velocity({y2: "-=100px"}, dur);
+	$("#door1").velocity({rotateZ: 0}, {duration: dur, delay: dur});
+	$("#door2").velocity({rotateZ: 0}, {duration: dur, delay: dur});
+}
 
 //init
 $("#replay").click(function () {gameObj.init();});
@@ -127,8 +172,6 @@ makeButtons("alphabet1");
 makeButtons("alphabet2");
 makeButtons("alphabet3");
 gameObj.init();
-
-
 
 // to-do
 // add hangman SVG
