@@ -53,6 +53,10 @@ line {
   stroke-width: 4;
 }
 
+#body>line {
+	stroke-width: 2;
+}
+
 #door1 {
   transform-origin: 0% 100%;
 }
