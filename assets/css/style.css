@@ -30,15 +30,40 @@ section {
 	font-family: 'Share Tech Mono', monospace;
 }
 
-#main {
+.main {
 	width: 65%;
 	margin: 0 auto;
+}
+
+#text {
+	float: left;
+	width: 50%;
+}
+
+#hang {
+	float: left;
+}
+
+svg {
+	border: 1px black solid;
+}
+
+line {
+  stroke: black;
+  stroke-width: 4;
+}
+
+#door1 {
+  transform-origin: 0% 100%;
+}
+
+#door2 {
+  transform-origin: 100% 100%;
 }
 
 p {
 	box-sizing: border-box;
 	margin: 0 auto;
-	width: 60%;
 	font-size: 30px;
 }
 
@@ -125,14 +150,12 @@ ul>.used:hover {
 	cursor: default;
 }
 
+span#replay:hover {
+	color: white;
+	cursor: default;
+}
+
 .hide {
 	display: none;
 }
 
-/*
-Theme ideas:
-Coding
-use a code style font
-angle brackets, etc...
-
-*/

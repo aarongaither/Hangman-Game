@@ -30,7 +30,6 @@ let gameObj = {
 	init : function () {
 	// reset entire game, minus wins/losses (which only happens on refresh)
 		//set page elements, info line, make sure replay button is hidden.
-
 		document.getElementById("replay").classList.add("hide");
 		document.getElementById("undef").classList.remove("hide");
 		//set chances and status
@@ -139,6 +138,7 @@ gameObj.init();
 
 
 // to-do
-// figure out overall layout
 // add hangman SVG
 // if word is lost, add back to words for re-use
+// add more words
+// add hints or categories
