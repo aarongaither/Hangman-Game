@@ -2,12 +2,11 @@
 function makeButtons (alpha) {
 	//make all our li items that will serve as letter buttons
 	for (let i of gameObj[alpha]) {
-	    item = document.createElement("li");
-	    item.classList.add("letter", "shadow");
-	    item.id = i;
-	    item.innerHTML = i;
-	    item.addEventListener("click", function () {gameObj.makeGuess(this.innerHTML);});
-	    document.getElementById(alpha).appendChild(item);
+	    item = $("<li>");
+	    item.addClass("letter shadow");
+	    item.attr("id", i);
+	    item.html(i).click(function () {gameObj.makeGuess(this.innerHTML);});
+	    $("#"+alpha).append(item);
 	}
 }
 
@@ -30,12 +29,12 @@ let gameObj = {
 	init : function () {
 	// reset entire game, minus wins/losses (which only happens on refresh)
 		//set page elements, info line, make sure replay button is hidden.
-		document.getElementById("replay").classList.add("hide");
-		document.getElementById("undef").classList.remove("hide");
+		$("#replay").addClass("hide");
+		$("#undef").removeClass("hide");
 		//set chances and status
-		document.getElementById("info").innerHTML = "playing";
+		$("#info").html("playing");
 		this.curChances = this.startChances;		
-		document.getElementById("chances").innerHTML = this.curChances;
+		$("#chances").html(this.curChances);
 		//set vars
 		this.gameState = 1;
 		this.reqLet = "";
@@ -50,36 +49,32 @@ let gameObj = {
 			}
 		}
 		//remove any children of the guesses list
-		let guessUL = document.getElementById("guesses");
-		while (guessUL.hasChildNodes()) {   
-		    guessUL.removeChild(guessUL.firstChild);
-		}
+		let guessUL = $("#guesses");
+		guessUL.empty();
 		//create underscores on page for replacment
 		for (let i = 0; i < this.curWord.length; i++) {								
-			item = document.createElement("li");
-			item.className = "guessLetter";
-			item.innerHTML = "_";
-			guessUL.appendChild(item);
+			item = $("<li>").addClass("guessLetter").html("_");
+			guessUL.append(item);
 		}
 		//make sure all li buttons are no longer used
-		let btns = document.getElementsByClassName("letter");
-		for (let i of btns) {
-			i.classList.remove("used");
+		let usedbtns = $("#used");
+		for (var i = 0; i < usedbtns.length; i++) {
+			usedBtns[i].removeClass("used");
 		}
 	},
 	setChances : function () {
 	//decrement chances, then check for game loss
 		//decrement chances, push to page												
 		this.curChances -= 1; 
-		document.getElementById("chances").innerHTML = this.curChances;
+		$("#chances").html(this.curChances);
 		//check for game loss
 		if (this.curChances < 1) {
 			this.gameState = 0;
 			this.losses += 1;
-			document.getElementById("losses").innerHTML = this.losses;
-			document.getElementById("info").innerHTML = "loser";
-			document.getElementById("undef").classList.add("hide");
-			document.getElementById("replay").classList.remove("hide");
+			$("#losses").html(this.losses);
+			$("#info").html("loser");
+			$("#undef").addClass("hide");
+			$("#replay").removeClass("hide");
 		}
 	},
 	checkWin : function () {
@@ -93,24 +88,24 @@ let gameObj = {
 		//made it through the loop, game is won!
 		this.gameState = 0;
 		this.wins += 1;
-		document.getElementById("wins").innerHTML = this.wins;
-		document.getElementById("info").innerHTML = "winner";
-		document.getElementById("undef").classList.add("hide");
-		document.getElementById("replay").classList.remove("hide");
+		$("#wins").html(this.wins);
+		$("#info").html("winner");
+		$("#undef").addClass("hide");
+		$("#replay").removeClass("hide");
 	},
 	makeGuess : function (letter) {
 	//on btn click check if btn is usable, then if letter is correct
 		if (this.gameState === 1){
 			let word = gameObj.curWord;
-			curLetter = document.getElementById(letter);
+			curLetter = $("#"+letter);
 			//if btn does not have used class
-			if (!curLetter.classList.contains("used")){
-				curLetter.classList.add("used");
+			if (!curLetter.hasClass("used")){
+				curLetter.addClass("used");
 				//if letter is in our guess word								
 				if (word.indexOf(letter) != -1) {
 					this.guessLet += letter;
 					//grab all guessLetter class DOM elem, iter through curWord, use curWord position to update html
-					let gsEl = document.getElementsByClassName("guessLetter");
+					let gsEl = $(".guessLetter");
 					for (let i = 0; i < word.length; i++) {
 						if (word.charAt(i) === letter)  {
 							gsEl[i].innerHTML = letter;
@@ -128,8 +123,9 @@ let gameObj = {
 }
 
 
+
 //init
-document.getElementById("replay").addEventListener("click", function () {gameObj.init()});
+$("#replay").click(function () {gameObj.init();});
 makeButtons("alphabet1");
 makeButtons("alphabet2");
 makeButtons("alphabet3");
