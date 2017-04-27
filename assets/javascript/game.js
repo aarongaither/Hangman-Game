@@ -2,9 +2,7 @@
 function makeButtons (alpha) {
 	//make all our li items that will serve as letter buttons
 	for (let i of gameObj[alpha]) {
-	    item = $("<li>");
-	    item.addClass("letter shadow");
-	    item.attr("id", i);
+	    item = $("<li>").addClass("letter shadow").attr("id", i);
 	    item.html(i).click(function () {gameObj.makeGuess(this.innerHTML);});
 	    $("#"+alpha).append(item);
 	}
@@ -57,10 +55,9 @@ let gameObj = {
 			guessUL.append(item);
 		}
 		//make sure all li buttons are no longer used
-		let usedbtns = $("#used");
-		for (var i = 0; i < usedbtns.length; i++) {
-			usedBtns[i].removeClass("used");
-		}
+		$(".used").each(function (i, obj){
+			$(this).removeClass("used");
+		});
 	},
 	setChances : function () {
 	//decrement chances, then check for game loss
