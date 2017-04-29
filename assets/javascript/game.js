@@ -1,15 +1,16 @@
 //create buttons
 function makeButtons (alpha) {
 	//make all our li items that will serve as letter buttons
-	for (let i of gameObj[alpha]) {
-	    item = $("<li>").addClass("letter shadow").attr("id", i);
-	    item.html(i).click(function () {gameObj.makeGuess(this.innerHTML);});
-	    $("#"+alpha).append(item);
+	for (let item of gameObj[alpha]) {
+	    elem = $("<li>").addClass("letter shadow").attr("id", item);
+	    elem.html(item).click(function () {gameObj.makeGuess(this.innerHTML);});
+	    $("#"+alpha).append(elem);
 	}
 }
 
 //game object of many things!
 let gameObj = {
+	//three alphabet arrays in order to make the qwerty layout
 	alphabet1 : ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
 	alphabet2 : ["a", "s", "d", "f", "g", "h", "j", "k", "l"],
 	alphabet3 : ["z", "x", "c", "v", "b", "n", "m"],
@@ -18,12 +19,12 @@ let gameObj = {
 	"express", "mongoose"],
 	startChances : 7,
 	curChances: 7,
-	curWord : "",
-	reqLet : "",
-	guessLet: "",
+	curWord : "",				//word to be guessed
+	reqLet : "",				//storage for unique letters of our word to guess
+	guessLet: "",				//storage for letters guessed this game
 	wins: 0,
 	losses: 0,
-	gameState: 1,
+	gameState: 1,				//use to turn on or off clicks, conditional for animation reset
 	init : function () {
 	// reset entire game, minus wins/losses (which only happens on refresh)
 		//set page elements, info line, make sure replay button is hidden.
@@ -34,23 +35,23 @@ let gameObj = {
 		this.curChances = this.startChances;		
 		$("#chances").html(this.curChances);
 		//hangman init
-		for (var i of bodyParts) {
-			$("#"+i).addClass("hide");
+		for (var item of bodyParts) {
+			$("#"+item).addClass("hide");
 		}
 		if (this.gameState === 0){
 			resetSVG();
 		}
 		//set vars
-		this.gameState = 1;
-		this.reqLet = "";
-		this.guessLet = "";
+		this.gameState = 1; 			
+		this.reqLet = "";				
+		this.guessLet = ""; 			
 		///splice curWord with random index from words list (splice so as to remove item from list so no repeats)
 		let rand = Math.floor(Math.random() * this.words.length);
 		this.curWord = this.words.splice(rand, 1)[0];
 		//push unique letters to var for checking against
-		for (let i of this.curWord) {
-			if (this.reqLet.indexOf(i) === -1){
-				this.reqLet += i;
+		for (let letter of this.curWord) {
+			if (this.reqLet.indexOf(letter) === -1){
+				this.reqLet += letter;
 			}
 		}
 		//remove any children of the guesses list
