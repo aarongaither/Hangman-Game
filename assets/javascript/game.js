@@ -89,9 +89,9 @@ let gameObj = {
 	},
 	checkWin : function () {
 	//check for win
-		//loop through reqlet and check if their members of guesslet
-		for (let i of this.reqLet){
-			if (this.guessLet.indexOf(i) === -1){
+		//loop through reqlet and check if they're members of guesslet
+		for (let letter of this.reqLet){
+			if (this.guessLet.indexOf(letter) === -1){
 				return false;
 			}
 		}
