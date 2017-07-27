@@ -1,15 +1,11 @@
 # Hangman-Game
 
-Week 3 Assignment
-
-## Assignment Overview
-_In this assignment, you'll create one of two possible computer games: Hangman or Psychic. These apps will run in the browser, and feature dynamically updated HTML powered by your JavaScript code._
-
+## Overview
+This app is a browser implementation of the classic word guessing game: Hangman. It features dynamically updated HTML and DOM from jQuery and Javascript. This game utilizes some ES6 syntax, so of course, if you're using IE, you are out of luck.
 
 ## Theme - Javascript and Web Tech
 
-Display info is formatted like a Javascript object with syntax highlighting reminiscient of the default Sublime theme, Monokai. Guess word list is comprised of terms pulled from the UCSD - BC syllabus. Input buttons are styled like a qwerty keyset.
-
+Display info is formatted like a Javascript object with syntax highlighting reminiscient of the default Sublime theme, Monokai. Guess word list is comprised of terms common in the web development world. Input buttons are styled like a qwerty keyset.
 
 ## Gameplay
 
@@ -20,15 +16,5 @@ A word to guess is chosen from the pre-determined word list, at random. Undersco
 
 This implementation relies on the following external libraries:
 - jQuery for DOM manipulation.
-- Velocity for hangman svg animation.
+- Velocity for hangman svg animation. (pure css for button animations, though.)
 - GoogleFonts for... well fonts.
-
-### Bonus
-
-I did use some CSS styling. While I would hesitate to call it "stylish" I do think the button click animation in pure css transition counts.
-
-The majority of the game is stored in a single game object. Only excepted where I felt not much value would have been added (hangman animations, initial button element creation).
-
-#### PS
-
-If you're a TA and having trouble winning a round due to the low amount of guesses. Just log "gameObj.curWord"
